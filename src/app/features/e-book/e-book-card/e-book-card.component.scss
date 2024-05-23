@@ -1,0 +1,111 @@
+.card {
+    @apply w-[21rem] sm:w-[40rem] px-2 max-w-3xl mx-auto;
+}
+
+.card-side {
+    @apply my-4 shadow-sm;
+
+    figure {
+        img {
+            @apply w-full h-full max-w-56 max-h-56 object-fill;
+        }
+    }
+
+    .card-body {
+        @apply relative rounded-md bg-primary dark:bg-book-card-dark px-4 pb-4 pt-8;
+
+
+        .card-line {
+            @apply absolute rounded-t-md top-0 left-0 w-full h-1 bg-secondary-button dark:bg-fourtiery;
+        }
+
+        .card-top {
+            @apply absolute top-1 left-0 w-full h-6 px-4 bg-tertiary dark:bg-book-card--top-dark flex flex-row items-center justify-end gap-3;
+
+            .share,
+            .favorite {
+                @apply cursor-pointer;
+            }
+        }
+
+        .card-header {
+            @apply flex flex-row items-center gap-6 p-4;
+
+            .card-image {
+                img {
+                    @apply w-20 h-20 object-fill;
+
+                }
+            }
+
+            .card-title-container {
+                .card-title {
+                    @apply flex flex-row items-center justify-start gap-2;
+
+                    h2 {
+                        @apply font-title text-2xl text-primary font-bold;
+                    }
+
+                    span {
+                        @apply badge badge-md badge-secondary text-sm;
+                    }
+                }
+            }
+        }
+
+        .category,
+        .material-type {
+            @apply text-tertiary;
+        }
+
+        .material-type {
+            @apply text-base font-medium;
+
+            &::before {
+                @apply mx-1 italic;
+            }
+        }
+
+        .isbn {
+            @apply flex flex-row justify-start items-center gap-2 text-secondary;
+
+            .copy {
+                @apply cursor-pointer;
+            }
+        }
+
+        .card-actions {
+            @apply items-center justify-end gap-4;
+
+            .btn {
+                @apply text-sm px-1 py-0 rounded-none min-h-10 h-10;
+
+            }
+        }
+
+        .btn-primary {
+            @apply flex justify-center items-center min-w-16 pr-2;
+
+            &:hover,
+            &:focus {
+                @apply relative bg-primary-button border-primary outline-primary text-white rounded-none font-medium opacity-100;
+
+                &::after {
+                    content: none
+                }
+            }
+        }
+
+        .btn-secondary {
+
+            &:hover,
+            &:focus {
+                @apply relative bg-secondary-button border-secondary outline-secondary text-white rounded-none font-medium opacity-100;
+
+                &::after {
+                    content: none
+                }
+            }
+        }
+    }
+}

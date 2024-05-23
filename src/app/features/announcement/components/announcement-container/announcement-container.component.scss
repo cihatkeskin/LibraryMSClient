@@ -1,0 +1,44 @@
+.announcement-container-title {
+    @apply inline-block text-xl mb-4 text-tertiary dark:text-gray-300 font-bold;
+}
+
+.announcement-list-container {
+    @apply flex flex-row gap-1 items-center justify-start;
+
+    .announcement-tag-container {
+        @apply inline-block;
+
+        .announcement-tag {
+            @apply relative top-[4px] text-primary;
+        }
+    }
+
+    .announcement-title {
+        @apply relative text-base text-tertiary dark:text-gray-300 mx-1 inline-block font-title font-semibold;
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 0.15rem;
+            width: 1.5rem;
+            position: absolute;
+            z-index: 0;
+            bottom: -.8rem;
+            left: -1.5rem;
+            background-color: peru;
+        }
+    }
+
+}
+
+.announcement-seperator {
+    @apply w-11/12 my-3 border border-gray-200;
+}
+
+.announcement-summary {
+    @apply inline-block ml-1 text-sm text-tertiary dark:text-gray-300;
+}
+
+.join {
+    @apply absolute bottom-2 left-1/2 -translate-x-1/2;
+}

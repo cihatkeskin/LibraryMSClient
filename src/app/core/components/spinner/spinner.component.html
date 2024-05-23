@@ -1,0 +1,6 @@
+<div *ngIf="shouldShowSpinner()" class="spinner-container">
+    <span class="spinner"></span>
+    <p *ngIf="loadingText" class="loading-text" i18n>
+        {{ loadingText }}
+    </p>
+</div>

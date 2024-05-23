@@ -1,0 +1,201 @@
+<div class="drawer lg:drawer-open">
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col items-center justify-center">
+        <div class="flex flex-col justify-start">
+            <form class="mx-auto" (submit)="onSearchSubmit($event)">
+                <label for="search">
+                    <div class="join">
+                        <div>
+                            <app-search-result (onSearchInputChange)="onSearchInputChange($event)"
+                                [searchResultCollection]="searchResultCollection"></app-search-result>
+                        </div>
+                        <label class="relative form-control w-full max-w-[100px] md:max-w-xs">
+                            <div class="absolute bottom-12 left-1/2 -translate-x-1/2">
+                                <span class="label-text-alt" i18n>List Mode</span>
+                            </div>
+                            <select id="listmode" class="select select-primary join-item"
+                                (input)="onListModeChange($event)">
+                                <option value="books" selected i18n>Books</option>
+                                <option value="magazines" i18n>Magazines</option>
+                                <option value="ebook" i18n>E-Books</option>
+                            </select>
+                        </label>
+                        <div class="indicator">
+                            <button class="btn btn-primary join-item" i18n>Search</button>
+                        </div>
+                    </div>
+                </label>
+            </form>
+            <div
+                class="relative join section-container py-1 my-1 mr-5 px-0 mt-8 sm:right-2 w-full max-w-3xl flex items-center justify-end">
+                <label for="my-drawer-2" class="drawer-button mr-auto">
+                    Panel
+                </label>
+                <button class="join-item btn btn-primary btn-pagination"
+                    [ngClass]="{'btn-pagination-disabled': isFirstPage}" (click)="onPreviousPage()">«</button>
+                <select class="join-item select btn btn-primary" (change)="goToPage($event)">
+                    <option class="btn btn-primary btn-pagination" *ngFor="let page of totalPages"
+                        [selected]="currentPage + 1 === page">{{ page }}</option>
+                </select>
+                <button class="join-item btn btn-primary btn-pagination"
+                    [ngClass]="{'btn-pagination-disabled': isLastPage}" (click)="onNextPage()">»</button>
+            </div>
+            <div class="overflow-x-auto w-full">
+                <div *ngIf="bookListObj">
+                    <div *ngFor="let book of bookListItems">
+                        <app-book-card [book]="book"></app-book-card>
+                    </div>
+                </div>
+                <div *ngIf="magazineListObj">
+                    <div *ngFor="let magazine of magazineListItems">
+                        <app-magazine-card [magazine]="magazine"></app-magazine-card>
+                    </div>
+                </div>
+                <div *ngIf="EBookListObj">
+                    <div *ngFor="let eBook of eBookListItems">
+                        <app-ebook-card [eBook]="eBook"></app-ebook-card>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="relative join section-container py-1 my-1 mr-5 px-0 mt-8 sm:right-2 max-w-3xl flex items-center justify-end">
+                <button class="join-item btn btn-primary btn-pagination"
+                    [ngClass]="{'btn-pagination-disabled': isFirstPage}" (click)="onPreviousPage()">«</button>
+                <select class="join-item select btn btn-primary" (change)="goToPage($event)">
+                    <option class="btn btn-primary btn-pagination" *ngFor="let page of totalPages"
+                        [selected]="currentPage + 1 === page">{{ page }}</option>
+                </select>
+                <button class="join-item btn btn-primary btn-pagination"
+                    [ngClass]="{'btn-pagination-disabled': isLastPage}" (click)="onNextPage()">»</button>
+            </div>
+        </div>
+    </div>
+    <div class="drawer-side">
+        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+        <ul class="menu ">
+            <li class="drawer-header">
+                <img class="avatar-img" src={{member.imageUrl}} />
+                <div class="head-info">
+                    <span class="name">{{member.firstName}} {{member.lastName}}</span>
+                    <div class="email">{{member.email}}</div>
+                    <div class="phone">{{member.phoneNumber}}</div>
+                    <div class="phone"><span i18n>Total Fines</span> : <span>{{totalFineDue | currency:"₺"}}</span>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapse bg-base-200">
+                    <input type="checkbox" class="checkbox" id="reservationsCollapse" />
+                    <div class="collapse-title text-xl font-medium">
+                        <span i18n>Reservations</span> <span class="collapse-indicator"
+                            [class.collapsed]="!isCollapseOpen('reservationsCollapse')">
+                            {{ isCollapseOpen('reservationsCollapse') ? '▼' : '►' }}
+                        </span>
+                    </div>
+                    <div class="collapse-content">
+                        <a [routerLink]="['/book', reservation.bookId]" routerLinkActive="router-link-active"
+                            *ngFor="let reservation of member.reservations">{{reservation.bookBookTitle}}</a>
+                        <p class="cursor-default" *ngIf="member.reservations.length === 0" i18n>No books reserved yet.
+                        </p>
+
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapse bg-base-200">
+                    <input type="checkbox" class="checkbox" id="favoritesCollapse" />
+                    <div class="collapse-title text-xl font-medium">
+                        <span i18n>Favorites</span> <span class="collapse-indicator"
+                            [class.collapsed]="!isCollapseOpen('favoritesCollapse')">
+                            {{ isCollapseOpen('favoritesCollapse') ? '▼' : '►' }}
+                        </span>
+                    </div>
+                    <div class="collapse-content">
+                        <a [routerLink]="['/book', favorite.bookId]" routerLinkActive="router-link-active"
+                            *ngFor="let favorite of member.favoriteBooks">{{favorite.bookBookTitle}}</a>
+                        <p *ngIf="member.favoriteBooks.length === 0" i18n>No books favorited yet.</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapse bg-base-200">
+                    <input type="checkbox" class="checkbox" id="borrowedCollapse" />
+                    <div class="collapse-title text-xl font-medium">
+                        <span i18n>Borrowed</span> <span class="collapse-indicator"
+                            [class.collapsed]="!isCollapseOpen('borrowedCollapse')">
+                            {{ isCollapseOpen('borrowedCollapse') ? '▼' : '►' }}
+                        </span>
+                    </div>
+                    <div class="collapse-content">
+                        <h4 class="heading"><span>Book Name</span><span>Return Date</span></h4>
+                        <hr>
+                        <a [routerLink]="['/book', bookIssue.bookId]" routerLinkActive="router-link-active" class="book"
+                            *ngFor="let bookIssue of member.bookIssues"><span
+                                class="book-title">{{bookIssue.bookBookTitle}}</span>
+                            <span class="returndate" i18n-title title="Return Date">{{
+                                bookIssue.returnDate | date:"dd/MM/YYYY"}}</span></a>
+                        <p *ngIf="member.books.length === 0" i18n>No books borrowed yet.</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapse bg-base-200">
+                    <input type="checkbox" class="checkbox" id="borrowedCollapse" />
+                    <div class="collapse-title text-xl font-medium">
+                        <span i18n>Fine Dues</span> <span class="collapse-indicator"
+                            [class.collapsed]="!isCollapseOpen('borrowedCollapse')">
+                            {{ isCollapseOpen('borrowedCollapse') ? '▼' : '►' }}
+                        </span>
+                    </div>
+                    <div class="collapse-content">
+                        <h4 class="heading"><span>Book Name</span><span>Fine</span></h4>
+                        <hr>
+                        <div routerLinkActive="router-link-active" class="book"
+                            *ngFor="let fineDue of member.fineDues"><span
+                                class="book-title">{{fineDue.bookIssueBookBookTitle}}</span>
+                            <span class="returndate" i18n-title title="Return Date">{{
+                                fineDue.fineTotal| currency:"₺"}}</span>
+                        </div>
+                        <!-- total finaTotal -->
+                        <hr>
+                        <div class="total">
+                            <span i18n>Total: </span><span>{{totalFineDue| currency:"₺"}}</span>
+                        </div>
+                        <p *ngIf="member.books.length === 0" i18n>There are no fines.</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapse bg-base-200">
+                    <input type="checkbox" class="checkbox" id="feedbackCollapse" />
+                    <div class="collapse-title text-xl font-medium">
+                        <span i18n>Send Feedback</span> <span class="collapse-indicator"
+                            [class.collapsed]="!isCollapseOpen('feedbackCollapse')">
+                            {{ isCollapseOpen('feedbackCollapse') ? '▼' : '►' }}
+                        </span>
+                    </div>
+                    <div class="collapse-content feedback-collapse">
+                        <form [formGroup]="feedBackForm" (ngSubmit)="onFeedBackSubmit($event)" class="form-group">
+                            <input type="text" id="title" name="title" formControlName="title"
+                                class="input input-bordered w-full max-w-xs my-2" placeholder="Title" i18n-placeholder
+                                required>
+                            <div *ngIf="feedbackTitle!.invalid && (feedbackTitle!.dirty || feedbackTitle!.touched)"
+                                class="login-alert">
+                                <div *ngIf="feedbackTitle!.errors?.['required']" i18n>Title is required.</div>
+                            </div>
+                            <textarea id="description" name="description"
+                                class="textarea textarea-bordered w-full max-w-xs my-2" formControlName="description"
+                                placeholder="Description" i18n-placeholder required rows="8"></textarea>
+                            <div *ngIf="feedBackDescription!.invalid && (feedBackDescription!.dirty || feedBackDescription!.touched)"
+                                class="login-alert">
+                                <div *ngIf="feedBackDescription!.errors?.['required']" i18n>Description is required.
+                                </div>
+                            </div>
+                            <button [disabled]="!feedBackForm.valid" type="submit" class="btn btn-primary "
+                                i18n>Send</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>

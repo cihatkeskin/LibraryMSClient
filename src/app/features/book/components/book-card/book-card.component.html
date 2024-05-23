@@ -1,0 +1,59 @@
+<div class="card card-side bg-base-100 shadow-xl">
+    <div class="card-body">
+        <div class="card-line"></div>
+        <div class="card-top">
+            <ng-icon class="share" name="iconoirShareAndroid" i18n-title title="Share"></ng-icon>
+        </div>
+        <div class="card-header">
+            <div class="card-image">
+                <img [src]="book.imageUrl" alt="eBook cover" />
+            </div>
+            <div class="card-title-container">
+                <div class="card-title">
+                    <h2>{{book.bookTitle}}</h2>
+                    <span>{{book.releaseDate}}</span>
+                    <div class="material-type" i18n>Book</div>
+                </div>
+                <div>
+                    <span *ngFor="let author of book.authors; let last = last">{{ author.firstName }} {{ author.lastName
+                        }}{{
+                        !last ? ', ' : '' }}</span>
+                </div>
+                <div class="category">{{ book.categoryName }}</div>
+            </div>
+        </div>
+        <div class="isbn">
+            <span class="isbn" title="ISBN">{{ book.isbnCode }}</span>
+            <ng-icon name="iconoirCopy" class="copy" i18n-title title="Copy ISBN"
+                (click)="copyText(book.isbnCode)"></ng-icon>
+        </div>
+        <div class="status">
+            <span i18n>{{ book.status }} </span>
+        </div>
+        <div class="location">
+            <p i18n>{{ book.locations.name }}, Kat: {{ book.locations.floorNo }}, Raf: {{ book.locations.shelfNo }} -
+                {{book.locations.shelfName}} </p>
+        </div>
+        <div class="card-actions">
+            <button *ngIf="checkIfBookFavorited(book.id)" class="" (click)="unfavorite(book.id)">
+                <ng-icon *ngIf="(book.status ) !== 'Reserved'" class="favorite" size="1.85rem" name="iconoirHeart"
+                    i18n-title title="Add To Favorites"></ng-icon>
+            </button>
+            <button *ngIf="!checkIfBookFavorited(book.id)" class="" (click)="favorite(book.id)">
+                <ng-icon *ngIf="(book.status ) !== 'Reserved'" class="favorite" size="1.85rem" name="ionHeartOutline"
+                    i18n-title title="Remove From Favorites"></ng-icon>
+            </button>
+            <button *ngIf="book.status === 'Available' && !checkIfBookReserved(book.id)"
+                class="btn btn-primary" (click)="reserve(book.id)" i18n><app-spinner class="reserve-spinner"
+                    [spinnerTypes]="['book']" loadingText=""></app-spinner><span
+                    *ngIf="!this.bookLoaderService.bookBeingReserved">Reserve</span>
+            </button>
+            <!-- unreserve -->
+            <button *ngIf="checkIfBookReserved(book.id)" class="btn btn-primary" (click)="unreserve(book.id)"
+                i18n><app-spinner class="reserve-spinner" [spinnerTypes]="['book']" loadingText=""></app-spinner><span
+                    *ngIf="!this.bookLoaderService.bookBeingReserved">Unreserve</span>
+            </button>
+            <a [routerLink]="['/book', book.id]" class="btn btn-secondary" i18n>Details</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="card card-side bg-base-100 shadow-xl">
+    <div class="card-body">
+        <div class="card-line"></div>
+        <div class="card-top">
+            <ng-icon class="share" name="iconoirShareAndroid" i18n-title title="Share"></ng-icon>
+        </div>
+        <div class="card-title">
+            <h2>{{magazine.magazineTitle}}</h2>
+            <span>{{magazine.releaseDate | date:'MM/YYYY'}}</span>
+            <div class="material-type" i18n>Magazine</div>
+        </div>
+        <div>
+            <div><span i18n>Issue : </span>{{ magazine.number }}</div>
+        </div>
+        <div class="category">{{ magazine.categoryName }}</div>
+        <div class="isbn">
+            <span class="isbn" title="ISBN">{{ magazine.issnCode }}</span>
+            <ng-icon name="iconoirCopy" class="copy" i18n-title title="Copy ISBN"
+                (click)="copyText(magazine.issnCode)"></ng-icon>
+        </div>
+        <div class="card-actions">
+            <a [routerLink]="['/magazine', magazine.id]" class="btn btn-secondary" routerLinkActive="router-link-active" i18n>Details</a>
+        </div>
+    </div>
+</div>

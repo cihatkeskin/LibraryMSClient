@@ -1,0 +1,7 @@
+:host {
+    @apply page;
+    
+    .announcement-container {
+        @apply relative bg-primary dark:bg-secondary w-full h-[600px];
+    }
+}

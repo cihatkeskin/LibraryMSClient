@@ -1,0 +1,36 @@
+<h2 class="announcement-container-title" i18n>Announcements</h2>
+<br>
+<br>
+<div *ngFor="let announcement of announcements">
+    <div class="announcement-list-container">
+
+        <div [ngSwitch]="announcement.tag" class="announcement-tag-container">
+            <div *ngSwitchCase="0" class="announcement-tag" i18n>
+                <ng-icon name="matAnnouncement"></ng-icon>
+            </div>
+            <div *ngSwitchCase="1" class="announcement-tag" i18n>
+                <ng-icon name="matNewspaper"></ng-icon>
+            </div>
+            <div *ngSwitchCase="2" class="announcement-tag" i18n>
+                <ng-icon name="matEvent"></ng-icon>
+            </div>
+            <div *ngSwitchDefault class="announcement-tag" i18n>
+                <ng-icon name="matAnnouncement"></ng-icon>
+            </div>
+        </div>
+        <h3 class="announcement-title">{{announcement.title}}</h3>
+    </div>
+    <hr class="announcement-seperator">
+    <p class="announcement-summary">{{announcement.content.slice(0, contentLimit)}}...</p>
+    <a [routerLink]="['/announcements', announcement.id]" class="btn btn-link"><span i18n>Read More... </span><ng-icon
+            class="relative top-[3px]" name="matArrowRightAlt"></ng-icon></a>
+
+</div>
+<div class="join">
+    <button class="join-item btn btn-primary btn-pagination" [ngClass]="{'btn-pagination-disabled': isFirstPage}"
+        (click)="
+        onPreviousPage()">«</button>
+    <button class="join-item btn btn-primary btn-pagination">{{currentPage + 1}}</button>
+    <button class="join-item btn btn-primary btn-pagination" [ngClass]="{'btn-pagination-disabled': isLastPage}"
+        (click)="onNextPage()">»</button>
+</div>

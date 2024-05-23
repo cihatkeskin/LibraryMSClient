@@ -1,0 +1,34 @@
+<div class="card card-side bg-base-100 shadow-xl">
+    <div class="card-body">
+        <div class="card-line"></div>
+        <div class="card-top">
+            <ng-icon class="share" name="iconoirShareAndroid" i18n-title title="Share"></ng-icon>
+        </div>
+        <div class="card-header">
+            <div class="card-image">
+                <img [src]="eBook.imageUrl" alt="eBook cover" />
+            </div>
+            <div class="card-title-container">
+                <div class="card-title">
+                    <h2>{{eBook.eBookTitle}}</h2>
+                    <span>{{eBook.releaseDate}}</span>
+                    <div class="material-type" i18n>E-Book</div>
+                </div>
+                <div>
+                    <span>{{eBook.authorName}}</span>
+                </div>
+                <div class="category">{{ eBook.categoryName }}</div>
+            </div>
+        </div>
+        <div class="isbn">
+            <span class="isbn" title="ISBN">{{ eBook.isbnCode }}</span>
+            <ng-icon name="iconoirCopy" class="copy" i18n-title title="Copy ISBN"
+                appCopyToClipboard="{{eBook.isbnCode}}"></ng-icon>
+        </div>
+
+        <div class="card-actions">
+            <a [routerLink]="['/ebook', eBook.id]" class="btn btn-secondary" i18n>Details</a>
+            <a href={{eBook.fileUrl}} target="_blank" class="btn btn-primary" i18n>Read</a>
+        </div>
+    </div>
+</div>
